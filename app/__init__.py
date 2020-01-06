@@ -95,10 +95,12 @@ from app.home.view import HomeView
 from app.provider.view import ProviderView
 from app.stream.view import StreamView
 from app.service.view import ServiceView
+from app.subscriber.view import SubscriberView
 from app.epg.view import EpgView
 
 HomeView.register(app)
 ProviderView.register(app)
 StreamView.register(app)
 ServiceView.register(app)
+SubscriberView.register(app)
 EpgView.register(app)

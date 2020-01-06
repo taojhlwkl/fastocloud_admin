@@ -44,7 +44,7 @@ Subscribers | {{ config['PUBLIC_CONFIG'].site.title }}
                     </tr>
                     </thead>
                     <tbody>
-                    {% for subscriber in server.subscribers %}
+                    {% for subscriber in subscribers %}
                     <tr id='{{ subscriber.id }}'>
                         <td>{{ loop.index }}</td>
                         <td>
@@ -78,7 +78,7 @@ Subscribers | {{ config['PUBLIC_CONFIG'].site.title }}
             </div>
             <div class="row">
                 <button type="submit" class="btn btn-success col-md-12"
-                        onclick="add_subscriber_to_server('{{ server.id }}')">
+                        onclick="add_subscriber()">
                     Add subscriber
                 </button>
             </div>
@@ -96,7 +96,7 @@ Subscribers | {{ config['PUBLIC_CONFIG'].site.title }}
 {% block scripts %}
 {{ super() }}
 <script type="text/javascript" charset="utf-8">
-    function add_subscriber_to_server_entry(url) {
+    function add_subscriber_entry(url) {
         $.ajax({
             url: url,
             type: "POST",
@@ -114,15 +114,15 @@ Subscribers | {{ config['PUBLIC_CONFIG'].site.title }}
         });
     }
 
-    function add_subscriber_to_server(sid) {
-        var url = "/service/subscriber/add/" + sid;
+    function add_subscriber() {
+        var url = "{{ url_for('SubscriberView:add') }}";
         $.get(url, function(data) {
             $('#service_dialog .modal-content').html(data);
             $('#service_dialog').modal();
 
             $('#apply').click(function(event) {
                 event.preventDefault();
-                add_subscriber_to_server_entry(url);
+                add_subscriber_entry(url);
             })
         });
     }
@@ -146,7 +146,7 @@ Subscribers | {{ config['PUBLIC_CONFIG'].site.title }}
     }
 
     function edit_subscriber(sid) {
-        var url = "/service/subscriber/edit/" + sid;
+        var url = "/subscriber/edit/" + sid;
         $.get(url, function(data) {
             $('#service_dialog .modal-content').html(data);
             $('#service_dialog').modal();
@@ -159,9 +159,8 @@ Subscribers | {{ config['PUBLIC_CONFIG'].site.title }}
     }
 
     function remove_subscriber(sid) {
-        var url = "/service/subscriber/remove";
         $.ajax({
-            url: "{{ url_for('ServiceView:remove_subscriber') }}",
+            url: "{{ url_for('SubscriberView:remove') }}",
             type: "POST",
             contentType : 'application/json',
             data: JSON.stringify({"sid":sid}),

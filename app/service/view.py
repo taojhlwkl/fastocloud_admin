@@ -6,9 +6,7 @@ from flask_login import login_required, current_user
 
 from app import get_runtime_folder
 from app.common.service.forms import ServiceSettingsForm, ActivateForm, UploadM3uForm, ServerProviderForm
-from app.common.subscriber.forms import SignupForm
 from pyfastocloud_models.service.entry import ServiceSettings, ProviderPair
-from pyfastocloud_models.subscriber.entry import Subscriber
 from pyfastocloud_models.utils.m3u_parser import M3uParser
 from pyfastocloud_models.utils.utils import is_valid_http_url
 from app.home.entry import ProviderUser
@@ -223,53 +221,6 @@ class ServiceView(FlaskView):
         if provider and server:
             server.remove_provider(provider)
             provider.remove_server(server)
-            return jsonify(status='ok'), 200
-
-        return jsonify(status='failed'), 404
-
-    @login_required
-    def subscribers(self, sid):
-        server = ServiceSettings.objects(id=sid).first()
-        if server:
-            return render_template('service/subscribers.html', server=server)
-
-        return redirect(url_for('ProviderView:dashboard'))
-
-    @login_required
-    @route('/subscriber/add/<sid>', methods=['GET', 'POST'])
-    def subscriber_add(self, sid):
-        form = SignupForm()
-        if request.method == 'POST' and form.validate_on_submit():
-            server = ServiceSettings.objects(id=sid).first()
-            if server:
-                new_entry = form.make_entry()
-                new_entry.add_server(server)
-
-                server.add_subscriber(new_entry)
-                return jsonify(status='ok'), 200
-
-        return render_template('service/subscriber/add.html', form=form)
-
-    @login_required
-    @route('/subscriber/edit/<sid>', methods=['GET', 'POST'])
-    def subscriber_edit(self, sid):
-        subscriber = Subscriber.objects(id=sid).first()
-        form = SignupForm(obj=subscriber)
-        if request.method == 'POST' and form.validate_on_submit():
-            subscriber = form.update_entry(subscriber)
-            subscriber.save()
-            return jsonify(status='ok'), 200
-
-        return render_template('service/subscriber/edit.html', form=form)
-
-    @login_required
-    @route('/subscriber/remove', methods=['POST'])
-    def remove_subscriber(self):
-        data = request.get_json()
-        sid = data['sid']
-        subscriber = Subscriber.objects(id=sid).first()
-        if subscriber:
-            subscriber.delete()
             return jsonify(status='ok'), 200
 
         return jsonify(status='failed'), 404
