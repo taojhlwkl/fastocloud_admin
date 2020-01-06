@@ -48,22 +48,22 @@ class ServiceView(FlaskView):
                         stream = server.make_proxy_vod()
                     elif stream_type == constants.StreamType.RELAY:
                         stream = server.make_relay_stream()
-                        stream.output.urls[0] = stream.generate_http_link()
+                        stream.output.urls[0] = stream.generate_http_link(constants.HlsType.HLS_PULL)
                     elif stream_type == constants.StreamType.ENCODE:
                         stream = server.make_encode_stream()
-                        stream.output.urls[0] = stream.generate_http_link()
+                        stream.output.urls[0] = stream.generate_http_link(constants.HlsType.HLS_PULL)
                     elif stream_type == constants.StreamType.VOD_RELAY:
                         stream = server.make_vod_relay_stream()
-                        stream.output.urls[0] = stream.generate_vod_link()
+                        stream.output.urls[0] = stream.generate_vod_link(constants.HlsType.HLS_PULL)
                     elif stream_type == constants.StreamType.VOD_ENCODE:
                         stream = server.make_vod_encode_stream()
-                        stream.output.urls[0] = stream.generate_vod_link()
+                        stream.output.urls[0] = stream.generate_vod_link(constants.HlsType.HLS_PULL)
                     elif stream_type == constants.StreamType.COD_RELAY:
                         stream = server.make_cod_relay_stream()
-                        stream.output.urls[0] = stream.generate_cod_link()
+                        stream.output.urls[0] = stream.generate_cod_link(constants.HlsType.HLS_PULL)
                     elif stream_type == constants.StreamType.COD_ENCODE:
                         stream = server.make_cod_encode_stream()
-                        stream.output.urls[0] = stream.generate_cod_link()
+                        stream.output.urls[0] = stream.generate_cod_link(constants.HlsType.HLS_PULL)
                     elif stream_type == constants.StreamType.CATCHUP:
                         stream = server.make_catchup_stream()
                     else:
