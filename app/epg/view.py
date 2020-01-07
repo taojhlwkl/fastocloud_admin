@@ -21,6 +21,12 @@ def gunzip(file_path, output_path):
 class EpgView(FlaskView):
     route_base = '/epg/'
 
+    @route('/epg', methods=['GET'])
+    @login_required
+    def epg(self):
+        epgs = Epg.objects()
+        return render_template('epg/show.html', epgs=epgs)
+
     @route('/update_urls', methods=['GET'])
     @login_required
     def update_urls(self):
@@ -107,4 +113,4 @@ class EpgView(FlaskView):
                 epg.uri = uniq
                 epg.save()
 
-        return redirect(url_for('ProviderView:epg'))
+        return redirect(url_for('EpgView:epg'))

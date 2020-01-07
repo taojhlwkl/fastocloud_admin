@@ -13,7 +13,7 @@ class SubscriberView(FlaskView):
 
     @login_required
     def show(self):
-        return render_template('subscribers/show.html', subscribers=Subscriber.objects())
+        return render_template('subscriber/show.html', subscribers=Subscriber.objects())
 
     @login_required
     @route('/add', methods=['GET', 'POST'])
@@ -27,7 +27,7 @@ class SubscriberView(FlaskView):
             new_entry.save()
             return jsonify(status='ok'), 200
 
-        return render_template('subscribers/add.html', form=form)
+        return render_template('subscriber/add.html', form=form)
 
     @login_required
     @route('/edit/<sid>', methods=['GET', 'POST'])
@@ -39,7 +39,7 @@ class SubscriberView(FlaskView):
             subscriber.save()
             return jsonify(status='ok'), 200
 
-        return render_template('subscribers/edit.html', form=form)
+        return render_template('subscriber/edit.html', form=form)
 
     @login_required
     @route('/remove', methods=['POST'])

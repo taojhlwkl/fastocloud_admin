@@ -3,7 +3,6 @@ from flask import render_template, redirect, url_for
 from flask_login import login_required, current_user
 
 from pyfastocloud_models.service.entry import ServiceSettings
-from pyfastocloud_models.epg.entry import Epg
 
 
 # routes
@@ -28,12 +27,6 @@ class ProviderView(FlaskView):
     @login_required
     def settings(self):
         return render_template('provider/settings.html', servers=current_user.servers)
-
-    @route('/epg', methods=['GET'])
-    @login_required
-    def epg(self):
-        epgs = Epg.objects()
-        return render_template('provider/epg.html', epgs=epgs)
 
     @login_required
     def change_current_server(self, position):

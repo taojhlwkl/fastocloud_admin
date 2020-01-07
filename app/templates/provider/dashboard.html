@@ -84,7 +84,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                     </div>
                     {% if (config['EPG_SUPPORT']) %}
                     <div class="col-md-1">
-                        <a href="{{ url_for('ProviderView:epg') }}" class="btn btn-success"
+                        <a href="{{ url_for('EpgView:show') }}" class="btn btn-success"
                            role="button">
                             Epg
                         </a>
