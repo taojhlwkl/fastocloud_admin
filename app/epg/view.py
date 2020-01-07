@@ -21,9 +21,8 @@ def gunzip(file_path, output_path):
 class EpgView(FlaskView):
     route_base = '/epg/'
 
-    @route('/epg', methods=['GET'])
     @login_required
-    def epg(self):
+    def show(self):
         epgs = Epg.objects()
         return render_template('epg/show.html', epgs=epgs)
 
